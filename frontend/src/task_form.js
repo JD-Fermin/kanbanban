@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { DateTimePicker } from "@mui/lab";
 import { Button, TextField, Select, InputLabel, MenuItem } from "@mui/material";
+import { createTask } from "./task_api_utils"
 function TaskForm(props) {
   const { addTask } = props;
   const [task, setTask] = useState({
-    id: Date.now(),
     name: "",
     description: "",
     deadline: new Date(),
@@ -28,13 +28,13 @@ function TaskForm(props) {
   }
 
   function handleSubmit(task) {
-    addTask(task);
+    createTask(task)
+      .then((res) => addTask(res));
     setTask({
-      id: Date.now(),
       name: "",
       description: "",
       deadline: new Date(),
-      status: "",
+      status: "Todo",
     });
   }
 
@@ -58,7 +58,7 @@ function TaskForm(props) {
 
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
-          label="DateTimePicker"
+          label="Date and Time"
           value={task.deadline}
           onChange={handleDateTimeChange}
         />
