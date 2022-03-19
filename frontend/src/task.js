@@ -1,15 +1,15 @@
 import React from "react";
-import  {format } from 'date-fns'
+import { Paper } from '@mui/material';
+import { format } from 'date-fns';
 function Task(props) {
   const { task } = props;
   const deadline = format(new Date(task.deadline), "MM/dd/yyyy 'at' h:mm a");
   return (
-    <div>
+    <Paper draggable variant="contained" elevation={4} sx={{bgcolor: '#e9e1d6'}} className="task" >
       <h3>{task.name}</h3>
       <p>{task.description}</p>
       <p>{deadline}</p>
-      <p>{task.status}</p>
-    </div>
+    </Paper>
   );
 }
 

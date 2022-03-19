@@ -12,6 +12,18 @@ router.get("/", (req, res) => {
     });
 });
 
+router.patch("/:id", async (req, res) => {
+    const updatedTask = Task.findByIdAndUpdate(req.params.id, {$set:{
+      name: req.body.name,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      status: req.body.status
+    }}, (err, docs) => {
+      if(err) res.send(err);
+      res.send(req.body);
+    })
+
+});
 // router.get("/:id");
 
 router.post("/", (req, res) => {

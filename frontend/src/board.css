@@ -1,0 +1,14 @@
+#board {
+    display: flex;
+    /* justify-content: space-around; */
+} 
+
+.category {
+    border-left: 1px solid #ece9f2;
+    /* border-bottom: 1px solid #ece9f2; */
+    padding: 30px 10px 0 10px;
+}
+
+.category:last-of-type {
+    border-right: 1px solid #ece9f2;
+}

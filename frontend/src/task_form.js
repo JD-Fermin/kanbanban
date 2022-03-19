@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { DateTimePicker } from "@mui/lab";
-import { Button, TextField, Select, InputLabel, MenuItem } from "@mui/material";
+import { Button, TextField, Box } from "@mui/material";
 import { createTask } from "./task_api_utils"
+import './task_index.css'
 function TaskForm(props) {
-  const { addTask } = props;
+  const { addTask, category } = props;
   const [task, setTask] = useState({
     name: "",
     description: "",
     deadline: new Date(),
-    status: "Todo",
+    status: category,
   });
 
   function handleDateTimeChange(newDateTime) {
@@ -23,10 +24,6 @@ function TaskForm(props) {
     setTask({ ...task, description: e.target.value });
   }
 
-  function handleStatusChange(e) {
-    setTask({ ...task, status: e.target.value });
-  }
-
   function handleSubmit(task) {
     createTask(task)
       .then((res) => addTask(res));
@@ -34,13 +31,23 @@ function TaskForm(props) {
       name: "",
       description: "",
       deadline: new Date(),
-      status: "Todo",
+      status: category,
     });
   }
 
   return (
-    <div>
-      <form>
+    <Box sx={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'white',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    }}>
+      <form className="task-form">
         <TextField
           id="outlined-basic"
           label="Name"
@@ -58,32 +65,19 @@ function TaskForm(props) {
 
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
-          label="Date and Time"
+          label="Deadline"
           value={task.deadline}
           onChange={handleDateTimeChange}
         />
 
-        <InputLabel variant="standard" htmlFor="uncontrolled-native">
-          Status
-        </InputLabel>
-        <Select
-          value={task.status ? task.status : " "}
-          inputProps={{
-            name: "status",
-            id: "uncontrolled-native",
-          }}
-          onChange={handleStatusChange}
-        >
-          <MenuItem value={"Todo"}>Todo</MenuItem>
-          <MenuItem value={"In Progress"}>In progress</MenuItem>
-          <MenuItem value={"Done"}>Done</MenuItem>
-        </Select>
+        
+        
 
         <Button variant="contained" onClick={() => handleSubmit(task)}>
           Submit
         </Button>
       </form>
-    </div>
+    </Box>
   );
 }
 
