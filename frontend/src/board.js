@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TaskIndex from "./task_index";
 import { fetchTasks } from "./task_api_utils";
 import { Container } from "@mui/material";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import "./board.css";
 function Board(props) {
   const [tasks, setTasks] = useState([]);

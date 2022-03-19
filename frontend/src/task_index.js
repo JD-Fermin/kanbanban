@@ -21,10 +21,11 @@ function TaskIndex(props) {
           </Button>
         </span>
       </div>
-
-      {tasks.length === 0
-        ? null
-        : tasks.map((task) => <Task key={task._id} task={task} />)}
+      <ul>
+        {tasks.length === 0
+          ? null
+          : tasks.map((task) => <Task key={task._id} task={task} />)}
+      </ul>
 
       <Modal open={open} onClose={handleOpen}>
         <div>
