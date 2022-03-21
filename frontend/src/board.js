@@ -49,6 +49,12 @@ function Board(props) {
     setTasks({ ...tasks, [task._id]: task });
   }
 
+  function removeTask(task) {
+    const newTasks = Object.assign({}, tasks);
+    delete newTasks[task._id];
+    setTasks(newTasks);
+  }
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <div id="board">
@@ -56,15 +62,18 @@ function Board(props) {
           tasks={filteredTasks["Todo"]}
           addTask={addTask}
           category={"Todo"}
+          removeTask={removeTask}
         />
         <TaskIndex
           tasks={filteredTasks["In Progress"]}
           addTask={addTask}
           category={"In Progress"}
+          removeTask={removeTask}
         />
         <TaskIndex
           tasks={filteredTasks["Completed"]}
           addTask={addTask}
+          removeTask={removeTask}
           category={"Completed"}
         />
       </div>

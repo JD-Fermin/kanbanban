@@ -7,7 +7,7 @@ import "./task_index.css";
 import { Droppable } from "react-beautiful-dnd";
 
 function TaskIndex(props) {
-  const { tasks, addTask, category } = props;
+  const { tasks, addTask, removeTask, category } = props;
   
   const [open, setOpen] = useState(false);
   function handleOpen() {
@@ -38,7 +38,7 @@ function TaskIndex(props) {
             {tasks.length === 0
               ? null
               : tasks.map((task, index) => {
-                  return <Task task={task} index={index} key={task._id} />;
+                  return <Task task={task} index={index} key={task._id} removeTask={removeTask} />;
                 })}
             {provided.placeholder}
           </ul>

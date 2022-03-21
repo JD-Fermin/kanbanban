@@ -4,11 +4,15 @@ import { format } from "date-fns";
 import { Draggable } from "react-beautiful-dnd";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { deleteTask } from "./task_api_utils";
 
 function Task(props) {
-  const { task, index } = props;
+  const { task, index, removeTask } = props;
   const deadline = format(new Date(task.deadline), "MM/dd/yyyy 'at' h:mm a");
 
+  function handleDelete(task) {
+    deleteTask(task._id).then((res) => removeTask(res));
+  }
   return (
     <Draggable draggableId={task._id} index={index}>
       {(provided) => (
@@ -26,7 +30,13 @@ function Task(props) {
             <h3>{task.name}</h3>
             <p>{task.description}</p>
             <p>{deadline}</p>
-            <span><DeleteIcon/><EditIcon/></span>
+            <span>
+              <DeleteIcon
+                onClick={() => handleDelete(task)}
+                sx={{ cursor: "pointer" }}
+              />
+              <EditIcon />
+            </span>
           </Paper>
         </li>
       )}
