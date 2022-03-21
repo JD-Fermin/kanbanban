@@ -13,8 +13,15 @@ router.get("/", (req, res) => {
     });
 });
 
+router.delete("/:id", async (req, res) => {
+  Task.findByIdAndDelete(req.params.id, (err, docs) => {
+    if (err) res.send(err);
+    res.send(docs);
+  });
+});
+
 router.patch("/:id", async (req, res) => {
-    const updatedTask = Task.findByIdAndUpdate(req.params.id, {$set:{
+    Task.findByIdAndUpdate(req.params.id, {$set:{
       name: req.body.name,
       description: req.body.description,
       deadline: req.body.deadline,
