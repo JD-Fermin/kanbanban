@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import TaskIndex from "./task_index";
 import { fetchTasks } from "./task_api_utils";
 import { Container } from "@mui/material";
-import { DragDropContext } from "react-beautiful-dnd";
 import "./board.css";
+// create linked list for ease of insertion
 function Board(props) {
   const [tasks, setTasks] = useState([]);
 
@@ -25,18 +25,20 @@ function Board(props) {
   function addTask(task) {
     setTasks([...tasks, task]);
   }
+// Needs modification for multiple array division
+//updat tasks to split to three arrays
+// make itdynamic
+  
 
   return (
     <Container id="board">
-      <DragDropContext>
         <TaskIndex addTask={addTask} tasks={todos} category={"Todo"} />
-        <TaskIndex
+        {/* <TaskIndex
           addTask={addTask}
           tasks={inProgress}
           category={"In Progress"}
         />
-        <TaskIndex addTask={addTask} tasks={completed} category={"Completed"} />
-      </DragDropContext>
+        <TaskIndex addTask={addTask} tasks={completed} category={"Completed"} /> */}
     </Container>
   );
 }

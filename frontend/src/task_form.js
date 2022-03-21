@@ -4,7 +4,7 @@ import { Button, TextField, Box } from "@mui/material";
 import { createTask } from "./task_api_utils"
 import './task_index.css'
 function TaskForm(props) {
-  const { addTask, category } = props;
+  const { addTask, category, handleOpen } = props;
   const [task, setTask] = useState({
     name: "",
     description: "",
@@ -33,6 +33,7 @@ function TaskForm(props) {
       deadline: new Date(),
       status: category,
     });
+    handleOpen();
   }
 
   return (
