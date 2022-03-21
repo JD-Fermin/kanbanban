@@ -1,15 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Task from "./task";
 import TaskForm from "./task_form";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Modal } from "@mui/material";
 import "./task_index.css";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { fetchTasks } from "./task_api_utils";
 function TaskIndex(props) {
-  const { tasks, addTask, category } = props;
+  const { category } = props;
+  const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
   function handleOpen() {
     setOpen(!open);
+  }
+
+  useEffect(() => {
+    fetchTasks(category).then((res) => {
+      let newTasks = Object.keys(res).length === 0 ? [] : Object.values(res);
+      setTasks(newTasks);
+    });
+  }, [tasks.length, category]);
+
+  function addTask(task) {
+    setTasks([...tasks, task]);
   }
 
   function handleDragEnd(result) {
@@ -18,6 +31,7 @@ function TaskIndex(props) {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
+    setTasks(items);
   }
 
   return (
