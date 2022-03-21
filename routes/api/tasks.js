@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Task = require("../../models/Task");
 
-router.get("/:category", (req, res) => {
-    Task.find({status: req.params.category}, (err, tasks) => {
+router.get("/", (req, res) => {
+    Task.find({}, (err, tasks) => {
         let taskMap = {};
 
         tasks.forEach((task) => taskMap[task._id] = task);

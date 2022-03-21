@@ -2,6 +2,8 @@ import React from "react";
 import { Paper } from "@mui/material";
 import { format } from "date-fns";
 import { Draggable } from "react-beautiful-dnd";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 function Task(props) {
   const { task, index } = props;
@@ -24,6 +26,7 @@ function Task(props) {
             <h3>{task.name}</h3>
             <p>{task.description}</p>
             <p>{deadline}</p>
+            <span><DeleteIcon/><EditIcon/></span>
           </Paper>
         </li>
       )}

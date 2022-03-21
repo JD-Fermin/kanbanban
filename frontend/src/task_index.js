@@ -1,39 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Task from "./task";
 import TaskForm from "./task_form";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Modal } from "@mui/material";
 import "./task_index.css";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { fetchTasks } from "./task_api_utils";
+import { Droppable } from "react-beautiful-dnd";
+
 function TaskIndex(props) {
-  const { category } = props;
-  const [tasks, setTasks] = useState([]);
+  const { tasks, addTask, category } = props;
+  
   const [open, setOpen] = useState(false);
   function handleOpen() {
     setOpen(!open);
   }
 
-  useEffect(() => {
-    fetchTasks(category).then((res) => {
-      let newTasks = Object.keys(res).length === 0 ? [] : Object.values(res);
-      setTasks(newTasks);
-    });
-  }, [tasks.length, category]);
+  
 
-  function addTask(task) {
-    setTasks([...tasks, task]);
-  }
-
-  function handleDragEnd(result) {
-    const items = Array.from(tasks);
-    
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setTasks(items);
-  }
-
+  
   return (
     <div className="category">
       <div className="category-header">
@@ -44,24 +27,23 @@ function TaskIndex(props) {
           </Button>
         </span>
       </div>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="tasks">
-          {(provided) => (
-            <ul
-              className="tasks"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {tasks.length === 0
-                ? null
-                : tasks.map((task, index) => {
-                    return <Task task={task} index={index} key={task._id} />;
-                  })}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-      </DragDropContext>
+
+      <Droppable droppableId={category}>
+        {(provided) => (
+          <ul
+            className="tasks"
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {tasks.length === 0
+              ? null
+              : tasks.map((task, index) => {
+                  return <Task task={task} index={index} key={task._id} />;
+                })}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
 
       <Modal open={open} onClose={handleOpen}>
         <div>

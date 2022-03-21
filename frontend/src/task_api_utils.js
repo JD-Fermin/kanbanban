@@ -5,7 +5,7 @@ export const createTask = async (taskData) => {
     return res.data;
 };
 
-export const fetchTasks = async (category) => {
-    const res = await axios.get(`/api/tasks/${category}`);
+export const fetchTasks = async () => {
+    const res = await axios.get('/api/tasks');
     return res.data;
 };
