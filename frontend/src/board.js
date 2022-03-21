@@ -26,6 +26,19 @@ function Board(props) {
 
   function handleDragEnd(result) {
     const item = filteredTasks[result.source.droppableId][result.source.index];
+    if (result.source.droppableId === result.destination.droppableId) {
+      const [reorderedItem] = filteredTasks[result.source.droppableId].splice(
+        result.source.index,
+        1
+      );
+      filteredTasks[result.source.droppableId].splice(
+        result.destination.index,
+        0,
+        reorderedItem
+      );
+      return;
+    }
+
     item.status = result.destination.droppableId;
     updateTask(item).then((res) => {
       addTask(res);
@@ -33,8 +46,7 @@ function Board(props) {
   }
 
   function addTask(task) {
-    setTasks({...tasks, [task._id]: task});
-
+    setTasks({ ...tasks, [task._id]: task });
   }
 
   return (
