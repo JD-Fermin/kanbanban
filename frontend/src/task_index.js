@@ -38,7 +38,8 @@ function TaskIndex(props) {
             {tasks.length === 0
               ? null
               : tasks.map((task, index) => {
-                  return <Task task={task} index={index} key={task._id} removeTask={removeTask} />;
+                  return <Task task={task} index={index} key={task._id} removeTask={removeTask} addTask={addTask}
+                  formType={"Edit"} />;
                 })}
             {provided.placeholder}
           </ul>
@@ -49,7 +50,7 @@ function TaskIndex(props) {
         <div>
           <TaskForm
             addTask={addTask}
-            category={category}
+            formType={"Create"}
             handleOpen={handleOpen}
           />
         </div>
