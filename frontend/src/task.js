@@ -40,15 +40,17 @@ function Task(props) {
                 onClick={() => handleDelete(task)}
                 sx={{ cursor: "pointer" }}
               />
-              <EditIcon onClick={handleOpen} />
+              <EditIcon onClick={handleOpen} sx={{ cursor: "pointer" }}/>
             </span>
           </Paper>
-          <Modal open={open} onClose={handleOpen}>
+          <Modal open={open} onClose={handleOpen} >
             <div>
               <TaskForm
                 addTask={addTask}
                 formType={formType}
                 handleOpen={handleOpen}
+                category={task.status}
+                editTask={task}
               />
             </div>
           </Modal>

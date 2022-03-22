@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { DateTimePicker } from "@mui/lab";
 import { Button, TextField, Box } from "@mui/material";
-import { createTask } from "./task_api_utils"
-import './task_index.css'
+import { createTask, updateTask } from "./task_api_utils";
+import "./task_index.css";
 function TaskForm(props) {
-  const { addTask, category, handleOpen } = props;
+  const { addTask, category, handleOpen, formType, editTask } = props;
   const [task, setTask] = useState({
-    name: "",
-    description: "",
-    deadline: new Date(),
+    name:  editTask ? editTask.name : "" ,
+    description: editTask ? editTask.description : "",
+    deadline: editTask ? new Date(editTask.deadline) : new Date(),
     status: category,
   });
 
@@ -25,29 +25,41 @@ function TaskForm(props) {
   }
 
   function handleSubmit(task) {
-    createTask(task)
-      .then((res) => addTask(res));
+    console.log(task)
+    if (formType === "Create") {
+      createTask(task).then((res) => addTask(res));
+      
+    }
+
+    if (formType === "Edit") {
+      const taskWithId = {...task, _id: editTask._id}
+      updateTask(taskWithId).then((res) => addTask(res));
+    }
     setTask({
       name: "",
       description: "",
       deadline: new Date(),
       status: category,
     });
+
     handleOpen();
   }
 
   return (
-    <Box sx={{
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 400,
-      bgcolor: 'white',
-      border: '2px solid #000',
-      boxShadow: 24,
-      p: 4,
-    }}>
+    <Box
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "white",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+      }}
+    >
+      <h3>{formType}</h3>
       <form className="task-form">
         <TextField
           id="outlined-basic"
@@ -70,9 +82,6 @@ function TaskForm(props) {
           value={task.deadline}
           onChange={handleDateTimeChange}
         />
-
-        
-        
 
         <Button variant="contained" onClick={() => handleSubmit(task)}>
           Submit

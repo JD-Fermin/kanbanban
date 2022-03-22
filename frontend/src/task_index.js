@@ -51,6 +51,7 @@ function TaskIndex(props) {
           <TaskForm
             addTask={addTask}
             formType={"Create"}
+            category={category}
             handleOpen={handleOpen}
           />
         </div>

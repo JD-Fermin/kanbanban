@@ -15,7 +15,10 @@ router.get("/", (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   Task.findByIdAndDelete(req.params.id, (err, docs) => {
-    if (err) res.send(err);
+    if(err) {
+      res.send(err)
+      return;
+    }
     res.send(docs);
   });
 });
@@ -27,7 +30,11 @@ router.patch("/:id", async (req, res) => {
       deadline: req.body.deadline,
       status: req.body.status
     }}, (err, docs) => {
-      if(err) res.send(err);
+      if(err) {
+        res.send(err)
+        return;
+      }
+      
       res.send(req.body);
     })
 
