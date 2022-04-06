@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Modal } from "@mui/material";
+import { Paper, Modal, Box } from "@mui/material";
 import { format } from "date-fns";
 import { Draggable } from "react-beautiful-dnd";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,7 +21,7 @@ function Task(props) {
   return (
     <Draggable draggableId={task._id} index={index}>
       {(provided) => (
-        <li
+        <Box
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -54,7 +54,7 @@ function Task(props) {
               />
             </div>
           </Modal>
-        </li>
+        </Box>
       )}
     </Draggable>
   );

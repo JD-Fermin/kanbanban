@@ -1,89 +1,63 @@
 import React, { useState, useEffect } from "react";
 import TaskIndex from "./task_index";
-
 import { DragDropContext } from "react-beautiful-dnd";
-import { fetchTasks, updateTask } from "./task_api_utils";
-import { fetchColumns } from "./column_api_utils";
+import { fetchTasks } from "./task_api_utils";
 import { Grid } from "@mui/material";
+import { useQuery } from "react-query";
 
 function Board(props) {
-  const [tasks, setTasks] = useState({});
-  const [columns, setColumns] = useState({});
+  const [tasks, setTasks] = useState([]);
+  const { data } = useQuery("tasks", fetchTasks, {refetchOnWindowFocus: false});
 
   useEffect(() => {
-    fetchTasks().then((res) => {
-      let newTasks = Object.keys(res).length === 0 ? {} : res;
-      setTasks(newTasks);
-    });
-  }, [tasks.length]);
+    if (data) setTasks(Object.values(data));
+  }, [data]);
 
-  useEffect(() => {
-    fetchColumns().then((res) => {
-      let newColumns = Object.keys(res).length === 0 ? {} : res;
-      setColumns(newColumns);
-    });
-  }, []);
 
-  const filteredTasks = {
-    Todo: columns["Todo"] ? columns["Todo"].order : [],
-    "In Progress": columns["In Progress"] ? columns["In Progress"].order : [],
-    Completed: columns["Completed"] ? columns["Completed"].order : [],
-  };
 
   function handleDragEnd(result) {
-    const item = filteredTasks[result.source.droppableId][result.source.index];
-    if (result.source.droppableId === result.destination.droppableId) {
-      const [reorderedItem] = filteredTasks[result.source.droppableId].splice(
-        result.source.index,
-        1
-      );
-      filteredTasks[result.source.droppableId].splice(
-        result.destination.index,
-        0,
-        reorderedItem
-      );
-      return;
+    console.log("yes");
+  }
+
+  function addTask(toAddTask) {
+    const index = tasks.findIndex((task) => task._id === toAddTask._id);
+    if (index === -1) {
+      setTasks([...tasks, toAddTask]);
+    } else {
+      tasks[index] = toAddTask;
+      setTasks([...tasks]);
     }
-
-    item.status = result.destination.droppableId;
-    updateTask(item).then((res) => {
-      addTask(res);
-    });
   }
 
-  function addTask(task) {
-    setTasks({ ...tasks, [task._id]: task });
+  function removeTask(toDeleteTask) {
+    setTasks((prevTasks) =>
+      prevTasks.filter((task) => task._id !== toDeleteTask._id)
+    );
   }
 
-  function removeTask(task) {
-    const newTasks = Object.assign({}, tasks);
-    delete newTasks[task._id];
-    setTasks(newTasks);
-  }
-
-  console.log(filteredTasks);
+  console.log(data, "data");
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Grid container alignItems={"center"} justifyContent={"space-evenly"} >
-        <Grid item md={4} sm={6} xs={12} marginTop={'2.5vh'} >
+      <Grid container alignItems={"center"} justifyContent={"space-evenly"}>
+        <Grid item md={4} sm={6} xs={12} marginTop={"2.5vh"}>
           <TaskIndex
-            tasks={filteredTasks["Todo"]}
+            tasks={tasks.filter((task) => task.status === "Todo")}
             addTask={addTask}
             category={"Todo"}
             removeTask={removeTask}
           />
         </Grid>
-        <Grid item md={4} sm={6} xs={12} marginTop={'2.5vh'}>
+        <Grid item md={4} sm={6} xs={12} marginTop={"2.5vh"}>
           <TaskIndex
-            tasks={filteredTasks["In Progress"]}
+            tasks={tasks.filter((task) => task.status === "In Progress")}
             addTask={addTask}
             category={"In Progress"}
             removeTask={removeTask}
           />
         </Grid>
-        <Grid item md={4} sm={6} xs={12} marginTop={'2.5vh'}>
+        <Grid item md={4} sm={6} xs={12} marginTop={"2.5vh"}>
           <TaskIndex
-            tasks={filteredTasks["Completed"]}
+            tasks={tasks.filter((task) => task.status === "Completed")}
             addTask={addTask}
             removeTask={removeTask}
             category={"Completed"}

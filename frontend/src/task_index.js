@@ -13,7 +13,7 @@ function TaskIndex(props) {
   function handleOpen() {
     setOpen(!open);
   }
-
+  
   return (
     <React.Fragment>
       <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} className="category-header">
@@ -27,7 +27,7 @@ function TaskIndex(props) {
       <Card sx={{height: "85vh"}} >
         <Droppable droppableId={category}>
           {(provided) => (
-            <ul
+            <Box
               className="tasks"
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -47,7 +47,7 @@ function TaskIndex(props) {
                     );
                   })}
               {provided.placeholder}
-            </ul>
+            </Box>
           )}
         </Droppable>
       </Card>

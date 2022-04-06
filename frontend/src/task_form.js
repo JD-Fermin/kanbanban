@@ -2,14 +2,27 @@ import React, { useState } from "react";
 import { DateTimePicker } from "@mui/lab";
 import { Button, TextField, Box } from "@mui/material";
 import { createTask, updateTask } from "./task_api_utils";
+import { useMutation } from "react-query";
 
 function TaskForm(props) {
   const { addTask, category, handleOpen, formType, editTask } = props;
+
   const [task, setTask] = useState({
-    name:  editTask ? editTask.name : "" ,
+    name: editTask ? editTask.name : "",
     description: editTask ? editTask.description : "",
     deadline: editTask ? new Date(editTask.deadline) : new Date(),
     status: category,
+  });
+
+  const createMutation = useMutation(createTask, {
+    onSuccess: (res) => {
+      addTask(res)
+    }
+  });
+  const updateMutation = useMutation(updateTask, {
+    onSuccess: (res) => {
+      addTask(res);
+    }
   });
 
   function handleDateTimeChange(newDateTime) {
@@ -25,15 +38,14 @@ function TaskForm(props) {
   }
 
   function handleSubmit(task) {
-    console.log(task)
+   
     if (formType === "Create") {
-      createTask(task).then((res) => addTask(res));
-      
+      createMutation.mutate(task);
     }
 
     if (formType === "Edit") {
-      const taskWithId = {...task, _id: editTask._id}
-      updateTask(taskWithId).then((res) => addTask(res));
+      const taskWithId = { ...task, _id: editTask._id };
+      updateMutation.mutate(taskWithId);
     }
     setTask({
       name: "",
