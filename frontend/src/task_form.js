@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DateTimePicker } from "@mui/lab";
 import { Button, TextField, Box } from "@mui/material";
 import { createTask, updateTask } from "./task_api_utils";
-import "./task_index.css";
+
 function TaskForm(props) {
   const { addTask, category, handleOpen, formType, editTask } = props;
   const [task, setTask] = useState({

@@ -1,7 +1,7 @@
 import Board from "./board";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import "./reset.css"
+
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

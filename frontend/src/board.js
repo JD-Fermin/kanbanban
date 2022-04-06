@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import TaskIndex from "./task_index";
-import "./board.css";
+
 import { DragDropContext } from "react-beautiful-dnd";
 import { fetchTasks, updateTask } from "./task_api_utils";
 import { fetchColumns } from "./column_api_utils";
+import { Grid } from "@mui/material";
 
 function Board(props) {
   const [tasks, setTasks] = useState({});
   const [columns, setColumns] = useState({});
-
 
   useEffect(() => {
     fetchTasks().then((res) => {
@@ -29,7 +29,6 @@ function Board(props) {
     "In Progress": columns["In Progress"] ? columns["In Progress"].order : [],
     Completed: columns["Completed"] ? columns["Completed"].order : [],
   };
-  
 
   function handleDragEnd(result) {
     const item = filteredTasks[result.source.droppableId][result.source.index];
@@ -65,26 +64,32 @@ function Board(props) {
   console.log(filteredTasks);
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div id="board">
-        <TaskIndex
-          tasks={filteredTasks["Todo"]}
-          addTask={addTask}
-          category={"Todo"}
-          removeTask={removeTask}
-        />
-        <TaskIndex
-          tasks={filteredTasks["In Progress"]}
-          addTask={addTask}
-          category={"In Progress"}
-          removeTask={removeTask}
-        />
-        <TaskIndex
-          tasks={filteredTasks["Completed"]}
-          addTask={addTask}
-          removeTask={removeTask}
-          category={"Completed"}
-        />
-      </div>
+      <Grid container alignItems={"center"} justifyContent={"space-evenly"} >
+        <Grid item md={4} sm={6} xs={12} marginTop={'2.5vh'} >
+          <TaskIndex
+            tasks={filteredTasks["Todo"]}
+            addTask={addTask}
+            category={"Todo"}
+            removeTask={removeTask}
+          />
+        </Grid>
+        <Grid item md={4} sm={6} xs={12} marginTop={'2.5vh'}>
+          <TaskIndex
+            tasks={filteredTasks["In Progress"]}
+            addTask={addTask}
+            category={"In Progress"}
+            removeTask={removeTask}
+          />
+        </Grid>
+        <Grid item md={4} sm={6} xs={12} marginTop={'2.5vh'}>
+          <TaskIndex
+            tasks={filteredTasks["Completed"]}
+            addTask={addTask}
+            removeTask={removeTask}
+            category={"Completed"}
+          />
+        </Grid>
+      </Grid>
     </DragDropContext>
   );
 }
