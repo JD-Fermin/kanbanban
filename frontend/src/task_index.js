@@ -24,7 +24,7 @@ function TaskIndex(props) {
           </Button>
     
       </Box>
-      <Card sx={{height: "85vh"}} >
+      <Card sx={{height: "85vh", padding: "10px"}} >
         <Droppable droppableId={category}>
           {(provided) => (
             <Box
@@ -53,14 +53,14 @@ function TaskIndex(props) {
       </Card>
 
       <Modal open={open} onClose={handleOpen}>
-        <div>
+        
           <TaskForm
             addTask={addTask}
             formType={"Create"}
             category={category}
             handleOpen={handleOpen}
           />
-        </div>
+       
       </Modal>
     </React.Fragment>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Modal, Box } from "@mui/material";
+import { Paper, Modal, Box, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { Draggable } from "react-beautiful-dnd";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -29,22 +29,26 @@ function Task(props) {
           <Paper
             variant="contained"
             elevation={4}
-            sx={{ bgcolor: "#fee4c3" }}
+            sx={{ bgcolor: "#fee4c3", padding: "10px", margin: "10px" }}
             className="task"
+
           >
-            <h3>{task.name}</h3>
-            <p>{task.description}</p>
-            <p>{deadline}</p>
-            <span>
+            <Typography variant="h5">{task.name}</Typography>
+            <Box display={"flex"} flexDirection={"column"}>
+              <Typography variant="h6">{task.description}</Typography>
+              <Typography variant="p">{deadline}</Typography>
+            </Box>
+           
+         
               <DeleteIcon
                 onClick={() => handleDelete(task)}
                 sx={{ cursor: "pointer" }}
               />
               <EditIcon onClick={handleOpen} sx={{ cursor: "pointer" }}/>
-            </span>
+           
           </Paper>
           <Modal open={open} onClose={handleOpen} >
-            <div>
+           
               <TaskForm
                 addTask={addTask}
                 formType={formType}
@@ -52,7 +56,7 @@ function Task(props) {
                 category={task.status}
                 editTask={task}
               />
-            </div>
+            
           </Modal>
         </Box>
       )}
