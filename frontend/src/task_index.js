@@ -53,13 +53,15 @@ function TaskIndex(props) {
       </Card>
 
       <Modal open={open} onClose={handleOpen}>
-        
-          <TaskForm
+        <div>
+        <TaskForm
             addTask={addTask}
             formType={"Create"}
             category={category}
             handleOpen={handleOpen}
           />
+        </div>
+          
        
       </Modal>
     </React.Fragment>

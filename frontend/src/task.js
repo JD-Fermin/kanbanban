@@ -48,7 +48,8 @@ function Task(props) {
            
           </Paper>
           <Modal open={open} onClose={handleOpen} >
-           
+           <div>
+
               <TaskForm
                 addTask={addTask}
                 formType={formType}
@@ -56,6 +57,7 @@ function Task(props) {
                 category={task.status}
                 editTask={task}
               />
+           </div>
             
           </Modal>
         </Box>

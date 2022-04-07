@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react";
 import TaskIndex from "./task_index";
 import { DragDropContext } from "react-beautiful-dnd";
-import { fetchTasks } from "./task_api_utils";
+import { fetchTasks, updateTask } from "./task_api_utils";
 import { Grid } from "@mui/material";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 function Board(props) {
   const [tasks, setTasks] = useState([]);
   const { data } = useQuery("tasks", fetchTasks, {refetchOnWindowFocus: false});
-
+  const updateMutation = useMutation(updateTask, {
+    onSuccess: (res) => {
+      addTask(res);
+    }
+  })
   useEffect(() => {
-    if (data) setTasks(Object.values(data));
+    if (data) setTasks(data);
   }, [data]);
 
 
 
   function handleDragEnd(result) {
-    console.log("yes");
+    const task = tasks.find((ele) => ele._id === result.draggableId);
+    task.status = result.destination.droppableId;
+    updateMutation.mutate(task);
   }
 
   function addTask(toAddTask) {
@@ -35,7 +41,7 @@ function Board(props) {
     );
   }
 
-  console.log(data, "data");
+  
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Grid container alignItems={"center"} justifyContent={"space-evenly"}>

@@ -4,12 +4,7 @@ const Task = require("../../models/Task");
 
 router.get("/", (req, res) => {
     Task.find({}, (err, tasks) => {
-        let taskMap = {};
-
-        tasks.forEach((task) => taskMap[task._id] = task);
-        
-
-        res.send(taskMap);
+        res.send(tasks);
     });
 });
 
