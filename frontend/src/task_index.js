@@ -19,12 +19,12 @@ function TaskIndex(props) {
       <Box display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} className="category-header">
         <Typography variant="h4">{category}</Typography>
     
-          <Button variant="contained" onClick={handleOpen}>
+          <Button variant="contained"  fullWidth onClick={handleOpen}>
             <AddIcon />
           </Button>
     
       </Box>
-      <Card sx={{height: "85vh", padding: "10px"}} >
+      <Card variant='outlined' sx={{height: "85vh", padding: "10px"}} >
         <Droppable droppableId={category}>
           {(provided) => (
             <Box

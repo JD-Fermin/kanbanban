@@ -18,7 +18,6 @@ function Board(props) {
   }, [data]);
 
 
-
   function handleDragEnd(result) {
     const task = tasks.find((ele) => ele._id === result.draggableId);
     task.status = result.destination.droppableId;

@@ -28,8 +28,8 @@ function Task(props) {
         >
           <Paper
             variant="contained"
-            elevation={4}
-            sx={{ bgcolor: "#fee4c3", padding: "10px", margin: "10px" }}
+            elevation={3} 
+            sx={{ bgcolor: "#fee4c3", padding: "10px", margin: "10px", border: "ThreeDShadow" }}
             className="task"
 
           >
